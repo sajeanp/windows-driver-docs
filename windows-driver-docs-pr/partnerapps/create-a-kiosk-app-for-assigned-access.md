@@ -78,7 +78,7 @@ When the lock framework launches the kiosk app above the lock and the app has th
 
 * Call the **LockApplicationHost.RequestUnlock()** method from your app to [exit Assigned Access mode](#addaway) and go back to the login screen.   
 
-* [Add an event handler](#eventhandler) to the **LockApplicationHost.Unlocking* event that fires when a user presses Ctrl+Alt+Del to exit the kiosk experience. The handler could also be used to save any data before exiting.
+* [Add an event handler](#eventhandler) to the **LockApplicationHost.Unlocking* event that fires when a user selects Ctrl+Alt+Del to exit the kiosk experience. The handler could also be used to save any data before exiting.
 
 
 
@@ -138,7 +138,7 @@ if (rootFrame.Content == null)
 
 Starting in Windows 10, version 1803, [Multiple views](https://docs.microsoft.com/windows/uwp/design/layout/show-multiple-views) are supported in the kiosk experience for apps that do not have the **windows.aboveLockScreen** extension. To use multiple views, ensure the kiosk device’s **Multiple displays** option is set to **Extend these displays**.
 
-When an app with multiple views (and without **windows.aboveLockScreen**) is launched during a kiosk experience, the main view of the app will be rendered on the 1st monitor. If a new view is created by app using [CreateNewView()](https://docs.microsoft.com/uwp/api/windows.applicationmodel.core.coreapplication), it will be rendered on the second monitor. If the app creates another view, it’ll go to the third monitor, and so on.
+When an app with multiple views (and without **windows.aboveLockScreen**) is launched during a kiosk experience, the main view of the app will be rendered on the first monitor. If a new view is created by app using [CreateNewView()](https://docs.microsoft.com/uwp/api/windows.applicationmodel.core.coreapplication), it will be rendered on the second monitor. If the app creates another view, it will go to the third monitor, and so on.
 
 > [!IMPORTANT]
 > Kiosk devices can only display one view per monitor. For example, if the kiosk device has only one monitor, it will always show the main view of the kiosk app. New views created by the app will not be displayed.
@@ -209,7 +209,7 @@ LockApplicationHost^ lockHost = LockApplicationHost::GetForCurrentView();
 
 ### Lifecycle management <a name="eventhandler"></a>
 
-A kiosk app's lifecycle is handled by the assigned access framework. If the app ends unexpectedly, the framework will attempt to relaunch it. If however, a user presses Ctrl+Alt+Del to bring up the login screen, an unlocking event is triggered. The assigned access framework listens to the event, and will try to terminate the app.
+A kiosk app's lifecycle is handled by the assigned access framework. If the app ends unexpectedly, the framework will attempt to relaunch it. If however, a user selects Ctrl+Alt+Del to bring up the login screen, an unlocking event is triggered. The assigned access framework listens to the event, and will try to terminate the app.
 
 Your kiosk app can also register a handler for this event and perform actions before exiting. Saving any data is an example of this. See the code below for an example of registering a handler.
 
@@ -296,8 +296,8 @@ The following sample application manifest uses the **windows.aboveLockScreen**UW
 Normally, if a Kiosk app fails to activate above the lock screen app, you can find the activation error code in the lockdown screen. Use the error code to discover the issue by looking up Windows [System Error Codes](https://docs.microsoft.com/windows/desktop/Debug/system-error-codes). In addition Event Viewer contains more information about activation failures. To do so:
 
 1.  Open **Event Viewer**. There are two likely places to find activation errors.
-2.  In the **Event Viewer (Local)** pane, expand **Windows Logs**, and then click **Application**.
-3.  Also, in **Event Viewer (local)**, expand **Applications and Services Logs**, expand **Windows**, expand **Apps**, and then click **Microsoft-Windows-TWinUI/Operational**.
+2.  In the **Event Viewer (Local)** pane, expand **Windows Logs**, and then select **Application**.
+3.  Also, in **Event Viewer (local)**, expand **Applications and Services Logs**, expand **Windows**, expand **Apps**, and then select **Microsoft-Windows-TWinUI/Operational**.
 
 Note that because kiosk apps with assigned access do not run in full-screen mode, **ApplicationView.GetForCurrentView().IsFullScreenMode** will return false.
 
